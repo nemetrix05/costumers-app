@@ -1,19 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const CostumersActions = ({ children }) =>{
+const CustomersActions = ({ children }) =>{
     return(
         <div>
             <div className="costumers-actions">
-                <button type="button">{children}</button>
+                <div>{children}</div>
             </div>
         </div>
     );
 }
 
-CostumersActions.propTypes = {
+CustomersActions.propTypes = {
     // Node es un tipo de validacion que permite rendrizar cualquier tipo de elementos.
     children: PropTypes.node.isRequired
 };
 
-export default CostumersActions;
+export default CustomersActions;
