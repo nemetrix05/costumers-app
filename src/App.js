@@ -29,11 +29,11 @@ class App extends Component {
     return (
       <Router>
         <div>
-            <Route exact path="/" component={this.renderHome}></Route>
-            <Route exact path="/customers" component={this.renderCustomerListContainer}></Route>
+            <Route exact path="/" render={this.renderHome}></Route>
+            <Route exact path="/customers" render={this.renderCustomerListContainer}></Route>
             <Switch>
-                <Route path="/customers/new" component={this.renderCustomerNewContainer}></Route>
-                <Route path="/customers/:dni" component={this.renderCustomerContainer}></Route>
+                <Route path="/customers/new" render={this.renderCustomerNewContainer}></Route>
+                <Route path="/customers/:dni" render={this.renderCustomerContainer}></Route>
             </Switch>
         </div>
       </Router>

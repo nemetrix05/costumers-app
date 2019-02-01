@@ -1,0 +1,33 @@
+{
+  "customers": [
+    {
+      "dni": "345345546546",
+      "name": "Andres Cruz",
+      "age": 27
+    },
+    {
+      "dni": "09986879768",
+      "name": "Carlos Garcia",
+      "age": 80
+    },
+    {
+      "dni": "787676776767",
+      "name": "Plutarco de la rosa",
+      "age": 100
+    }
+  ],
+  "posts": [
+    {
+      "id": 1,
+      "title": "json-server",
+      "author": "typicode"
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "body": "some comment",
+      "postId": 1
+    }
+  ]
+}
