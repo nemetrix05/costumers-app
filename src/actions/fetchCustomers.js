@@ -2,6 +2,8 @@
 import { createAction } from 'redux-actions';
 // aqui importamos las constantes de las acciones
 import { FETCH_CUSTOMERS } from '../constants';
+import { apiGet } from '../api';
+import { urlCustomers } from '../api/urls';
 
 // Podemos validar las acciones sin usar el store con breakpoints con debugger
 
@@ -14,12 +16,6 @@ import { FETCH_CUSTOMERS } from '../constants';
 Lo instalamos y ejecutamos el comando: $ json-server --watch db.json --port 3004
 */
 
-
-// Aqui llamamos los datos que seran procesados
-const url = 'http://localhost:3005/customers';
-const apiFetchCustomers = () => fetch(url).then(v => v.json());
-
 // con payload creator le pasamos el valor de la accion que serian los datos en array, va como segundo parametro en createActions
-
 // Modo clasico
-export const fetchCustomers = createAction(FETCH_CUSTOMERS, apiFetchCustomers);
+export const fetchCustomers = createAction(FETCH_CUSTOMERS, apiGet(urlCustomers));
