@@ -17,9 +17,9 @@ const CustomerData = ({ name, dni, age }) =>{
 }
 
 
-CustomerData.PropTypes = {
-    name:   PropTypes.string.isRequired,
-    dni:    PropTypes.string.isRequired,
+CustomerData.propTypes = {
+    name:   PropTypes.string,
+    dni:    PropTypes.string,
     age:    PropTypes.number    
 }
 
