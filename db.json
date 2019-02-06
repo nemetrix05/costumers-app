@@ -1,19 +1,28 @@
 {
   "customers": [
     {
+      "id": "345345546546",
       "dni": "345345546546",
-      "name": "Andres Cruz",
-      "age": 27
+      "name": "cambio de nombre",
+      "age": "27"
     },
     {
-      "dni": "09986879768",
-      "name": "Carlos Garcia",
-      "age": 80
+      "id": "09986879768",
+      "dni": "09986879768dfgdfg",
+      "name": "Radamel Carmen",
+      "age": "65756"
     },
     {
+      "id": "787676776767",
       "dni": "787676776767",
       "name": "Plutarco de la rosa",
       "age": 100
+    },
+    {
+      "id": "6666",
+      "dni": "66666",
+      "name": "OTROSI",
+      "age": "89"
     }
   ],
   "posts": [
