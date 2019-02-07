@@ -9,5 +9,13 @@ export const apiPut = (url, id, obj) => () =>
             method:     'PUT',
             body:       JSON.stringify(obj),
             headers:    new Headers({ 'Content-type': 'application/json' })
-        }).then( v => v.json() )
-        // Aqui recibe la respuesta de la actualizacion
+        }).then(v => v.json()).then(r => {
+            if (r.error) {
+                const e = new Error();
+                      e.error = r.error;
+                      e.payload = r.validation;
+                return Promise.reject(e);
+            }
+            return r;
+            // Con esta promise validamos del lado del servidor que los datos enviados esten correctos
+        });

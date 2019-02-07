@@ -6,6 +6,8 @@ import { reduxForm, Field } from 'redux-form';
 import { setPropsAsInitial } from '../helpers/setPropsAsInitial';
 // Importamos la Botonera
 import CustomersActions from './CustomersActions';
+// importamos el Prompt para validacion
+import { Prompt } from 'react-router-dom';
 
 
 // Creo las dos funciones de validacion sobre los campos del formulario
@@ -56,9 +58,20 @@ const myField = ({ input, meta, type, name, label }) => (
     </div>
 );
 
+
+// Con esta funcion convertimos el valor de age en numerico para guardarlo en el store
+const toNumber = value => value && Number(value);
+// Puedo parsear los elementos convirtiendo las letras a mayusculas o minusculas
+const toUpper = value => value && value.toUpperCase();
+const toLower = value => value && value.toLowerCase();
+// Con el metodo format, tomamos el valor original del store y lo convertimos antes de enviarlo de nuevo
+
+// Con el metodo normalize, agregamos logica a los valores parseados en el elemento
+const onlyGrow = (value, previousValue, values) => value && previousValue && (value > previousValue ? value : previousValue);
+
 // HandleSubmit y submitting son metodos nativos del redux form: el primero se ejecuta al hacer onSubmit en el formulario y el segundo deshabilita el boton de enviar, mientras se envia la informacion al servidor.
 
-const CustomerEdit = ({ name, dni, age, handleSubmit, submitting, onBack, pristine }) =>{
+const CustomerEdit = ({ name, dni, age, handleSubmit, submitting, onBack, pristine, submitSucceeded }) =>{
     return(
         <div>
             <h2>Formulario de edicion Cliente</h2>
@@ -68,12 +81,13 @@ const CustomerEdit = ({ name, dni, age, handleSubmit, submitting, onBack, pristi
                     component={myField} 
                     type="text"
                     label="Nombre"
+                    parse={toUpper}
+                    format={toLower}
                 ></Field>
                 <Field 
                     name="dni" 
                     component={myField} 
                     type="text"
-                    //validate={isNumber}
                     label="DNI"
                 ></Field>
                 <Field 
@@ -82,15 +96,24 @@ const CustomerEdit = ({ name, dni, age, handleSubmit, submitting, onBack, pristi
                     type="number"
                     validate={[minLength, isNumber]}
                     label="Edad"
+                    parse={toNumber}
+                    normalize={onlyGrow}
                 ></Field>    
                 <CustomersActions>
                     <button type="submit" disabled={pristine || submitting}>Aceptar</button>
-                    <button type="button" onClick={onBack}>Cancelar</button>
+                    <button type="button" disabled={submitting} onClick={onBack}>Cancelar</button>
                 </CustomersActions>                     
+                <Prompt
+                    when={!pristine && !submitSucceeded}
+                    message="Se perderan los datos si haces clic."
+                >
+                </Prompt>
             </form>
-        </div>
+        </div>  
     );
 }
+// Con Promt detectamos que el usuario confirme los datos antes de ser enviados
+
 
 CustomerEdit.propTypes = {
     name: PropTypes.string,

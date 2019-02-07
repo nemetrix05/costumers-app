@@ -3,26 +3,26 @@
     {
       "id": "345345546546",
       "dni": "345345546546",
-      "name": "cambio de nombre",
-      "age": "27"
+      "name": "OLGA",
+      "age": 31
     },
     {
       "id": "09986879768",
-      "dni": "09986879768dfgdfg",
-      "name": "Radamel Carmen",
-      "age": "65756"
+      "dni": "09986879768",
+      "name": "RADAMEL CARMEN",
+      "age": 19
     },
     {
       "id": "787676776767",
       "dni": "787676776767",
-      "name": "Plutarco de la rosa",
-      "age": 100
+      "name": "PLUTARCO DE LA ROSADFER",
+      "age": 12
     },
     {
       "id": "6666",
       "dni": "66666",
       "name": "OTROSI",
-      "age": "89"
+      "age": 43
     }
   ],
   "posts": [

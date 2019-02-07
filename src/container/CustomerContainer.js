@@ -10,6 +10,8 @@ import CustomerData from '../components/CustomerData';
 import CustomerEdit from '../components/CustomerEdit';
 import { fetchCustomers } from '../actions/fetchCustomers';
 import { updateCustomer } from '../actions/updateCustomer';
+// Importamos el metodo SubmissionError de redux form
+import { SubmissionError } from 'redux-form';
 
 class CustomerContainer extends Component {
 
@@ -37,7 +39,15 @@ class CustomerContainer extends Component {
         // extrae de la array del cliente solo el ID
         const { id } = values;
         // Con el return enviamos la promesa al boton de enviar,con el objetivo que se deshabilite al enviar la informacion
-        return this.props.updateCustomer(id, values);
+        return this.props.updateCustomer(id, values)
+            .then( r => r )
+            .catch(e => {
+                if (e.error){
+                    // se lanza un error con el metodo Submition Error de redux que traera el error en la consulta
+                    throw new SubmissionError(e.payload);
+                }
+            });
+        // Aqui ejecutamos la promise desde lado del servidor
     }
 
     // Creamos una funcion  para renderizar el contenido del cliente, con el componente Router es como un if y le pasamos como children el parametro que se convierte en true , si la ruta coincide
