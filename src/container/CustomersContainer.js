@@ -12,7 +12,10 @@ import { getCustomers } from '../selectors/customers';
 class CustomersContainer extends Component {
 
     componentDidMount () {
-        this.props.fetchCustomers();
+        // Aqui verifico si hay usuarios en el array, entonces actualizo si no no hago el fetch
+        if( this.props.customers.length === 0 ){
+            this.props.fetchCustomers();
+        }
     }
 
     // Creo la funcion que va llevar al boton añadir un nuevo usuario

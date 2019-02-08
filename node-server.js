@@ -6,7 +6,7 @@ const middlewares = jsonServer.defaults()
 
 server.use(middlewares)
 
-server.listen(3001, () => {
+server.listen(3008, () => {
   console.log('JSON Server is running')
 })
 

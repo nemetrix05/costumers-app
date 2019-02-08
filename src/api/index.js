@@ -19,3 +19,21 @@ export const apiPut = (url, id, obj) => () =>
             return r;
             // Con esta promise validamos del lado del servidor que los datos enviados esten correctos
         });
+
+
+// Creamos la accion de POST
+
+export const apiPost = (url, obj) => () =>
+        fetch(`${url}`, {
+            method:     'POST',
+            body:       JSON.stringify(obj),
+            headers:    new Headers({ 'Content-type': 'application/json' })
+        }).then(v => v.json()).then(r => {
+            if (r.error) {
+                const e = new Error();
+                      e.error = r.error;
+                      e.payload = r.validation;
+                return Promise.reject(e);
+            }
+            return r;
+        });

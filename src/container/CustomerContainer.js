@@ -53,6 +53,7 @@ class CustomerContainer extends Component {
     // Creamos una funcion  para renderizar el contenido del cliente, con el componente Router es como un if y le pasamos como children el parametro que se convierte en true , si la ruta coincide
 
     renderBody = () => (
+
         <Route
             path="/customers/:dni/edit" children={
                 // Creamos una funcion para condicionar lo que se mostrara

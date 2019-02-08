@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import HomeContainer from './container/HomeContainer';
 import CustomersContainer from './container/CustomersContainer';
 import CustomerContainer from './container/CustomerContainer';
+import NewCustomerContainer from './container/NewCustomerContainer';
 
 // Route: componente usado para definir los paths y contenido de la aplicacion de React, con exact dejamos obligatorio esa ruta
 // Link: Para hacer anclas de navegacion con react router
@@ -22,7 +23,7 @@ class App extends Component {
   renderCustomerListContainer = () => <CustomersContainer />
 
   // Nuevo cliente
-  renderCustomerNewContainer = () => <h1>New Customer</h1>
+  renderCustomerNewContainer = () => <NewCustomerContainer />
 
 
 // Siempre poner las rutas + especificas de primera en el Switch

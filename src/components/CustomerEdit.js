@@ -26,10 +26,6 @@ const validate = values => {
     if(!values.name) {
         error.name = "El campo nombre es requerido"
     } 
-    
-    if(!values.dni){
-        error.dni = "El campo DNI es requerido"
-    }
 
     return error;
 }
@@ -50,13 +46,14 @@ const isNumber = value => (
 
 // La otra atrapa ese texto y lo muestra en un span
 // Tambien puedo pasar el tipo de campo si esta definido
-const myField = ({ input, meta, type, name, label }) => (
-    <div>
-        <label htmlFor={name}>{label}</label>
-        <input {...input} type={ !type ? "text" : type } />
-        { meta.touched && meta.error && <span>{meta.error}</span> }
-    </div>
-);
+const myField = ({ input, meta, type, name, label }) => {
+
+    return  <div>
+                <label htmlFor={name}>{label}</label>
+                <input {...input} type={ !type ? "text" : type } />
+                { meta.touched && meta.error && <span>{meta.error}</span> }
+            </div>
+};
 
 
 // Con esta funcion convertimos el valor de age en numerico para guardarlo en el store
@@ -67,7 +64,7 @@ const toLower = value => value && value.toLowerCase();
 // Con el metodo format, tomamos el valor original del store y lo convertimos antes de enviarlo de nuevo
 
 // Con el metodo normalize, agregamos logica a los valores parseados en el elemento
-const onlyGrow = (value, previousValue, values) => value && previousValue && (value > previousValue ? value : previousValue);
+const onlyGrow = (value, previousValue, values) => value && (!previousValue ? value : (value > previousValue ? value : previousValue));
 
 // HandleSubmit y submitting son metodos nativos del redux form: el primero se ejecuta al hacer onSubmit en el formulario y el segundo deshabilita el boton de enviar, mientras se envia la informacion al servidor.
 
@@ -89,16 +86,17 @@ const CustomerEdit = ({ name, dni, age, handleSubmit, submitting, onBack, pristi
                     component={myField} 
                     type="text"
                     label="DNI"
+                    validate={[minLength, isNumber]}
                 ></Field>
                 <Field 
                     name="age" 
                     component={myField} 
                     type="number"
-                    validate={[minLength, isNumber]}
+                    validate={[isNumber]}
                     label="Edad"
                     parse={toNumber}
                     normalize={onlyGrow}
-                ></Field>    
+                ></Field>                            
                 <CustomersActions>
                     <button type="submit" disabled={pristine || submitting}>Aceptar</button>
                     <button type="button" disabled={submitting} onClick={onBack}>Cancelar</button>
