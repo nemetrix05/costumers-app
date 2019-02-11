@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 // Importamos la libreria de redux form para activar los formularios y enlazarlo al reducer
 import { reduxForm, Field } from 'redux-form';
@@ -44,17 +44,6 @@ const isNumber = value => (
     isNaN(Number(value)) && "El campo debe ser numero"
 );
 
-// La otra atrapa ese texto y lo muestra en un span
-// Tambien puedo pasar el tipo de campo si esta definido
-const myField = ({ input, meta, type, name, label }) => {
-
-    return  <div>
-                <label htmlFor={name}>{label}</label>
-                <input {...input} type={ !type ? "text" : type } />
-                { meta.touched && meta.error && <span>{meta.error}</span> }
-            </div>
-};
-
 
 // Con esta funcion convertimos el valor de age en numerico para guardarlo en el store
 const toNumber = value => value && Number(value);
@@ -68,47 +57,80 @@ const onlyGrow = (value, previousValue, values) => value && (!previousValue ? va
 
 // HandleSubmit y submitting son metodos nativos del redux form: el primero se ejecuta al hacer onSubmit en el formulario y el segundo deshabilita el boton de enviar, mientras se envia la informacion al servidor.
 
-const CustomerEdit = ({ name, dni, age, handleSubmit, submitting, onBack, pristine, submitSucceeded }) =>{
-    return(
-        <div>
-            <h2>Formulario de edicion Cliente</h2>
-            <form onSubmit={handleSubmit}>
-                <Field 
-                    name="name" 
-                    component={myField} 
-                    type="text"
-                    label="Nombre"
-                    parse={toUpper}
-                    format={toLower}
-                ></Field>
-                <Field 
-                    name="dni" 
-                    component={myField} 
-                    type="text"
-                    label="DNI"
-                    validate={[minLength, isNumber]}
-                ></Field>
-                <Field 
-                    name="age" 
-                    component={myField} 
-                    type="number"
-                    validate={[isNumber]}
-                    label="Edad"
-                    parse={toNumber}
-                    normalize={onlyGrow}
-                ></Field>                            
-                <CustomersActions>
-                    <button type="submit" disabled={pristine || submitting}>Aceptar</button>
-                    <button type="button" disabled={submitting} onClick={onBack}>Cancelar</button>
-                </CustomersActions>                     
-                <Prompt
-                    when={!pristine && !submitSucceeded}
-                    message="Se perderan los datos si haces clic."
-                >
-                </Prompt>
-            </form>
-        </div>  
-    );
+class CustomerEdit extends Component {
+    // Para controlar el estado de un elemento por medio del DOM usamos una funcion que va devolver el elemento ref={text => this.text = text} 
+
+    // Luego podemos manipularlo con Javascript o jQuery desde cualquier metodo del liveCircle
+
+    componentDidMount() {
+        if(this.txt){
+            // Si en al atributo ref esta declarado el elemento se adiciona el focus
+            console.log(this.txt);
+            this.txt.focus();
+        }
+    }
+
+    // La otra atrapa ese texto y lo muestra en un span
+    // Tambien puedo pasar el tipo de campo si esta definido
+
+    // Usamos la propiedad withFocus para agregar al campo la funcionalidad con el atributo ref
+    renderField = ({ input, meta, type, name, label, withFocus }) => {
+
+        return  <div>
+                    <label htmlFor={name}>{label}</label>
+                    <input 
+                        {...input} 
+                        type={ !type ? "text" : type } 
+                        ref={withFocus && (txt => this.txt = txt)}
+                        />
+                    { meta.touched && meta.error && <span>{meta.error}</span> }
+                </div>
+    };
+
+    render(){
+        const { handleSubmit, submitting, onBack, pristine, submitSucceeded } = this.props;
+        return (
+            <div>
+                <h2>Formulario de edicion Cliente</h2>
+                <form onSubmit={handleSubmit}>
+                    <Field 
+                        withFocus
+                        name="name" 
+                        component={this.renderField} 
+                        type="text"
+                        label="Nombre"
+                        parse={toUpper}
+                        format={toLower}
+                    ></Field>
+                    <Field 
+                        name="dni" 
+                        component={this.renderField} 
+                        type="text"
+                        label="DNI"
+                        validate={[minLength, isNumber]}
+                    ></Field>
+                    <Field 
+                        name="age" 
+                        component={this.renderField} 
+                        type="number"
+                        validate={[isNumber]}
+                        label="Edad"
+                        parse={toNumber}
+                        normalize={onlyGrow}
+                    ></Field>                            
+                    <CustomersActions>
+                        <button type="submit" disabled={pristine || submitting}>Aceptar</button>
+                        <button type="button" disabled={submitting} onClick={onBack}>Cancelar</button>
+                    </CustomersActions>                     
+                    <Prompt
+                        when={!pristine && !submitSucceeded}
+                        message="Se perderan los datos si haces clic."
+                    >
+                    </Prompt>
+                </form>
+            </div>  
+        );        
+    }
 }
 // Con Promt detectamos que el usuario confirme los datos antes de ser enviados
 
