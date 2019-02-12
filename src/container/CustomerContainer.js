@@ -10,6 +10,7 @@ import CustomerData from '../components/CustomerData';
 import CustomerEdit from '../components/CustomerEdit';
 import { fetchCustomers } from '../actions/fetchCustomers';
 import { updateCustomer } from '../actions/updateCustomer';
+import { deleteCustomer } from '../actions/deleteCustomer';
 // Importamos el metodo SubmissionError de redux form
 import { SubmissionError } from 'redux-form';
 
@@ -50,28 +51,48 @@ class CustomerContainer extends Component {
         // Aqui ejecutamos la promise desde lado del servidor
     }
 
+    handleOnDelete = id => {
+        const {deleteCustomer, history} = this.props;
+        deleteCustomer(id).then(v => {
+            history.goBack();
+        })
+    }    
+
+    /// En esta funcion ejecutamos el control de las rutas
+
+    renderCustomerControl = (isEdit, isDelete) => {
+        // Se añade validacion sobre la prop customers
+        if(this.props.customer) {
+            // Para no repetir los mismos valores, realizo un control component, guardando en una constante el nombre el comp y cambiendo su valor de acuerdo al match
+            const CustomerControl = isEdit ? CustomerEdit : CustomerData;
+            return <CustomerControl {...this.props.customer} 
+                    onSubmit={this.handleSubmit}
+                    //con esta propiedad ejecutamos la redireccion al enviar el formulario
+                    onSubmitSuccess={this.handleOnSubmitSuccess}
+                    onBack={this.handleOnBack}
+                    isDeleteAllow={!!isDelete}
+                    onDelete={this.handleOnDelete} />
+
+            // Usamos el truco de doble negacion para convertir un valor false o nullo en true bolean con !! doble admiracion
+            // Foma 2 de definir valores iniciales en los campos del formulario
+            //return <CustomerControl initialValue={this.props.customer} />
+        }
+        return null
+    }
+
     // Creamos una funcion  para renderizar el contenido del cliente, con el componente Router es como un if y le pasamos como children el parametro que se convierte en true , si la ruta coincide
 
     renderBody = () => (
 
-        <Route
-            path="/customers/:dni/edit" children={
-                // Creamos una funcion para condicionar lo que se mostrara
-                // Con el spread operator {...this.props.customer} enviamos todas las props que necesitan los componentes, en lugar de pasarlas uno por uno asi: this.props.customer.name ...
-                ( { match } ) => { 
-                    // Para no repetir los mismos valores, realizo un control component, guardando en una constante el nombre el comp y cambiendo su valor de acuerdo al match
-                    const CustomerControl = match ? CustomerEdit : CustomerData;
-                    return <CustomerControl {...this.props.customer} 
-                            onSubmit={this.handleSubmit}
-                            //con esta propiedad ejecutamos la redireccion al enviar el formulario
-                            onSubmitSuccess={this.handleOnSubmitSuccess}
-                            onBack={this.handleOnBack} />
-                    // Foma 2 de definir valores iniciales en los campos del formulario
-                    //return <CustomerControl initialValue={this.props.customer} />
-                }
-            }
-        >
-        </Route>
+        <Route path="/customers/:dni/edit" children={
+            // Creamos una funcion para condicionar lo que se mostrara
+            // Con el spread operator {...this.props.customer} enviamos todas las props que necesitan los componentes, en lugar de pasarlas uno por uno asi: this.props.customer.name ...
+            ( { match: isEdit } ) => (
+                <Route path="/customers/:dni/del" children={
+                    ({ match: isDelete }) => (
+                        this.renderCustomerControl(isEdit, isDelete))
+                } /> )
+        } />
     )
 
     render(){
@@ -89,7 +110,8 @@ CustomerContainer.propTypes = {
     dni: PropTypes.string.isRequired,
     customer: PropTypes.object,
     fetchCustomers: PropTypes.func.isRequired,
-    updateCustomer: PropTypes.func.isRequired
+    updateCustomer: PropTypes.func.isRequired,
+    deleteCustomer: PropTypes.func.isRequired
 }
 
 // Esta funcion puede recibir props en adicion al state
@@ -98,4 +120,4 @@ const mapStateToProps = (state, props) => ({
 });
 
 
-export default withRouter(connect(mapStateToProps, { fetchCustomers, updateCustomer })(CustomerContainer));
+export default withRouter(connect(mapStateToProps, { fetchCustomers, updateCustomer, deleteCustomer })(CustomerContainer));

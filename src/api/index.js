@@ -37,3 +37,21 @@ export const apiPost = (url, obj) => () =>
             }
             return r;
         });
+
+
+// Creamos el fetch para la eliminacion de un usuario
+
+export const apiDelete = (url, id) => () =>
+        fetch(`${url}/${id}`, {
+            method:     'DELETE',
+            headers:    new Headers({ 'Content-type': 'application/json' })
+        }).then(v => v.json()).then(r => {
+            if (r.error) {
+                const e = new Error();
+                      e.error = r.error;
+                      e.payload = r.validation;
+                return Promise.reject(e);
+            }
+            // Solo necesitamos el id para manejarlo en el reducer
+            return id;
+        });

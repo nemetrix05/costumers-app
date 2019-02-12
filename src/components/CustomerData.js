@@ -2,7 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import CustomersActions from './CustomersActions';
 
-const CustomerData = ({ name, dni, age, onBack }) =>{
+// Para activar la eliminacion de un usuario, debemos agregar como prop 2 valores permitir borrar que es un boleano y una funcion que envocara la accion de borrar en el componente contenedor.
+// Para pasar en una funcion un parametro usamos una arrow function
+
+const CustomerData = ({ id, name, dni, age, onBack, isDeleteAllow, onDelete }) =>{
     return(
         <div>
             <div className="costumer-data">
@@ -15,6 +18,7 @@ const CustomerData = ({ name, dni, age, onBack }) =>{
             </div>
             <CustomersActions>
                 <button type="button" onClick={onBack}>Volver</button>
+                {isDeleteAllow && <button onClick={() => onDelete(id)}>Eliminar</button>}
             </CustomersActions>                 
         </div>
     );
@@ -22,10 +26,14 @@ const CustomerData = ({ name, dni, age, onBack }) =>{
 
 
 CustomerData.propTypes = {
-    name:   PropTypes.string,
-    dni:    PropTypes.string,
-    age:    PropTypes.string,
-    onBack: PropTypes.func    
+    id:             PropTypes.string,
+    name:           PropTypes.string,
+    dni:            PropTypes.string,
+    age:            PropTypes.string,
+    onBack:         PropTypes.func,
+    isDeleteAllow:  PropTypes.bool,
+    onDelete:       PropTypes.func
+
 }
 
 export default CustomerData;
