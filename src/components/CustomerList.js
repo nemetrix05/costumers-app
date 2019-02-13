@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import CustomerListItem from './CustomerListItem';
+// Importo el HOC para validar accesos al componente
+import { accessControl } from '../helpers/accessControl';
+import { CUSTOMER_LIST } from '../constants/permissions';
 
 // Enviamos a la tabla de usuarios una array con los campos de cada uno
 const CustomerList = ({ customers, urlPath }) => {
@@ -30,4 +33,4 @@ CustomerList.propTypes = {
     urlPath: PropTypes.string.isRequired
 }
 
-export default CustomerList;
+export default accessControl([CUSTOMER_LIST])(CustomerList);

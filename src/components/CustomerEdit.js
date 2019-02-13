@@ -9,6 +9,9 @@ import CustomersActions from './CustomersActions';
 // importamos el Prompt para validacion
 import { Prompt } from 'react-router-dom';
 
+// Importo el HOC para validar accesos al componente
+import { accessControl } from '../helpers/accessControl';
+import { CUSTOMER_EDIT } from '../constants/permissions';
 
 // Creo las dos funciones de validacion sobre los campos del formulario
 
@@ -151,4 +154,5 @@ const CustomerEditForm = reduxForm({
     validate
 })(CustomerEdit);
 
-export default setPropsAsInitial(CustomerEditForm);
+// Aqui envolvemos el componente en el HOC y le pasamos el nivel de acceso y el mismo componente
+export default accessControl([CUSTOMER_EDIT])(setPropsAsInitial(CustomerEditForm));

@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import CustomersActions from './CustomersActions';
+// Importo el HOC para validar accesos al componente
+import { accessControl } from '../helpers/accessControl';
+import { CUSTOMER_VIEW } from '../constants/permissions';
 
 // Para activar la eliminacion de un usuario, debemos agregar como prop 2 valores permitir borrar que es un boleano y una funcion que envocara la accion de borrar en el componente contenedor.
 // Para pasar en una funcion un parametro usamos una arrow function
@@ -36,4 +39,4 @@ CustomerData.propTypes = {
 
 }
 
-export default CustomerData;
+export default accessControl([CUSTOMER_VIEW])(CustomerData);

@@ -5,13 +5,6 @@
       "dni": "345345546546",
       "name": "OLGA",
       "age": 33
-    },
-    {
-      "name": "TESTY",
-      "dni": "555",
-      "age": 7,
-      "id": "rhl49BZ",
-      "isDeleteAllow": false
     }
   ],
   "posts": [
