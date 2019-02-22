@@ -14,9 +14,28 @@ const user = (state, action) => (
     }
 );
 
+// Grupo de usuarios 
+const group = (state, action) => ([
+    {
+        user:           'admin1',
+        password:       123,
+        levelAccess:    1
+    },
+    {
+        user:           'admin2',
+        password:       1234,
+        levelAccess:    2
+    },
+    {
+        user:           'admin3',
+        password:       12345,
+        levelAccess:    3
+    }           
+]);
 
 export default combineReducers ({
     customers,
+    group,
     // Se debe poner una key form para que funcione el reducer
     form: reduxForm,
     user

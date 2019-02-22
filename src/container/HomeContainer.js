@@ -1,15 +1,22 @@
 import React, { Component } from 'react';
 import AppFrame from '../components/AppFrame';
-import CustomersActions from '../components/CustomersActions';
 import { withRouter } from 'react-router-dom';
+import CustomerLogin from '../components/CustomerLogin';
+import { connect } from 'react-redux';
+// Importamos los permisos para cada usuario
+import { CUSTOMER_LIST, CUSTOMER_VIEW, CUSTOMER_EDIT } from '../constants/permissions';
 
 class HomeContainer extends Component {
 
-// Opcion B no usando Link pra redireccionar a una url, por medio de un evento sobre el boton
-    handleOnClick = () => {
-        const { history } = this.props;
-        history.push('/customers');
-        // el com, router siempre pasa al componente envocado las funciones history, push como props para modificar el router
+    componentDidMount () {
+        const { group } = this.props;
+        console.log(group);
+    }
+
+    // con esta funcion se obtienen los datos enviados desde el customer Edit
+    handleSubmit = values => {
+        console.log('datos enviados!!!');
+        console.log(values);
     }
 
     render() {
@@ -19,10 +26,9 @@ class HomeContainer extends Component {
                     header="Home"
                     body={
                         <div>
-                            <h3>Pantalla Incial</h3>
-                            <CustomersActions>
-                                <button onClick={this.handleOnClick}>Listado de clientes</button>
-                            </CustomersActions>
+                            <CustomerLogin 
+                                onSubmit={this.handleSubmit}
+                            />
                         </div>
                     }
                 >
@@ -32,5 +38,9 @@ class HomeContainer extends Component {
     }
 }
 
+const mapStateToProps = (state, props) => ({
+    group: state.group
+});
+
 // Para dotar de las props de route a un componente usamos un decorador withRouter para asignar las props
-export default withRouter(HomeContainer);
+export default withRouter(connect(mapStateToProps)(HomeContainer));
