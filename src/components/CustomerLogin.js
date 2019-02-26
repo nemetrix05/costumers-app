@@ -31,7 +31,7 @@ class CustomerLogin extends Component {
     }
 
     render(){
-        const { handleSubmit, pristine, submitting } = this.props;
+        const { handleSubmit, pristine, submitting, alert } = this.props;
         return (
             <div>
                 <h3>Iniciar Sesion</h3>
@@ -50,9 +50,11 @@ class CustomerLogin extends Component {
                         component={this.renderInput}
                     >
                     </Field>    
+                    {alert}
                     <CustomersActions>
                         <button type="submit" disabled={pristine || submitting}>Ingresar</button>
-                    </CustomersActions>                
+                    </CustomersActions>                                
+                    
                 </form>
             </div>
         )
@@ -60,7 +62,8 @@ class CustomerLogin extends Component {
 }
 
 CustomerLogin.propTypes = {
-    handleSubmit: PropTypes.func
+    handleSubmit:   PropTypes.func,
+    alert:          PropTypes.string
 }
 
 export default reduxForm({ 
