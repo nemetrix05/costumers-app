@@ -68,7 +68,6 @@ class CustomerEdit extends Component {
     componentDidMount() {
         if(this.txt){
             // Si en al atributo ref esta declarado el elemento se adiciona el focus
-            console.log(this.txt);
             this.txt.focus();
         }
     }

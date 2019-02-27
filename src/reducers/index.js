@@ -7,11 +7,15 @@ import { SET_PERMISSIONS } from '../constants';
 
 
 // Creamos el reducer para mostrar llos componentes de acuerdo al tipo de usuario
-const user = (state = {}, action) => {
+const initialState = {
+    permissions: []
+}
+
+const user = (state = initialState, action) => {
     switch(action.type) {
 
         case SET_PERMISSIONS: {
-            return { permissions: [action.payload] }
+            return { ...state, permissions: [action.payload] }
         }
 
         default:
